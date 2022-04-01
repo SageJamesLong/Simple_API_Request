@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <title>Test API</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Filter (by tags and/or date) and search through Flickr's API of all public photos ever uploaded.">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Bitter&family=Hubballi&family=Ubuntu');
+            @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Bitter&family=Hubballi&family=PT+Serif&family=Ubuntu');
+            body{
+                background-color: rgba(255, 0, 0, 0.192);
+                display: block;
+                margin: 5px;
+            }
+            h1{
+                font-size: 45px;
+                font-family: 'Bitter', serif;
+                font-weight: 800;
+            }
+            h2{
+                font-family: 'Bitter', serif;
+                font-size: 20px;
+                font-size: 400;
+            }
+            p{
+                font-family: 'PT Serif', serif;
+                font-size: 70%;
+                font-weight: 200;
+            }
+            #test-form{
+                width: 50%;
+                display: block;
+                padding-top: 10px;
+                margin: 0 auto;
+            }
+            #test-text, #test-date, #test-submit{
+                box-sizing: border-box;
+                margin-bottom: 25px;
+                width: 100%;
+                
+            }
+            #photo-div{
+                border: rgba(255, 0, 0, 0.644) 2px groove;
+                box-shadow: rgb(150, 144, 144) 3px 3px 4px;
+                display: block;
+                width: 12%;
+                height: 30vh;
+                float: left;
+                overflow-wrap: break-word;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                margin-top: 18px;
+                margin-left: 10px;
+            }
+            ::-webkit-scrollbar {
+                padding: 1px;
+                /*-webkit-appearance: none;*/
+                width: 4px;
+                height: 0px;
+            }
+            ::-webkit-scrollbar-thumb {
+                border-radius: 1px;
+                border: rgba(172, 172, 172, 0.705) dotted 3px;
+                background-color: rgba(80, 55, 55, 0.5);
+                box-shadow: 0 0 1px rgba(250, 0, 0, 0.5);
+            }
+            .wrapper::-webkit-scrollbar-track-piece:end {
+                background: transparent;
+            }
+            .wrapper::-webkit-scrollbar-track-piece:start {
+                background: transparent;
+                margin-top: 30%;
+            }
+            img{
+                width: 100%;
+                height: 120px;
+                padding-top: 3px;
+                padding-left : 4px;
+                margin-bottom: 5px;
+            }
+            hr {
+                margin-top: 3px;
+                margin-bottom: 3px;
+                display: block;
+                width: 85%;
+                margin: 0 auto;
+            }
+            figcaption{
+                font-style: italic;
+                width: 90%;
+                display: block;
+                text-align: center;
+                margin: 0 auto;
+                margin-top: 8px;
+                height: max-content;
+            }
+            #imgcontainer{
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                flex-wrap: wrap;
+                box-sizing: border-box;
+                width: 100%;
+                grid-area: bottom;
+            }
+            #formcontainer{
+                box-sizing: border-box;
+                width: 100%;
+                height: fit-content;
+                grid-area: top;
+                border: rgba(255, 0, 0, 0.644) groove 2px;
+            }
+            .grid-c{
+                background-color: white;
+                display: grid;
+                grid-template-areas: 
+                "top" 
+                "bottom";
+                max-width: 1200px;
+                width: 97vw;
+                min-height: 100vh;
+                margin: 0 auto;
+                padding: 5px;
+                border: rgb(255, 0, 0) groove 5px;
+            }
+            p strong {
+                font-weight: 900%;
+            }
+            @media screen
+            and (min-width: 600px)
+            and (max-width: 800px) {
+                #photo-div{
+                    border-color: rgba(0, 0, 255, 0.651);
+                    width: 15%;
+                    height: 35vh;
+                }
+                #formcontainer{
+                    border-color: rgba(0, 0, 255, 0.651);
+                }
+                body{
+                    background-color: rgba(0, 0, 255, 0.651);
+                }
+                .grid-c{
+                    border-color: blue;
+                }
+            }
+            @media screen
+            and (max-width: 599px) {
+                #photo-div{
+                    border-color: rgba(0, 128, 0, 0.692);
+                    width: 25%;
+                    height: 35vh;
+                }
+                #formcontainer{
+                    border-color: rgba(0, 128, 0, 0.692);
+                }
+                body{
+                    background-color: rgba(0, 128, 0, 0.692);
+                }
+                .grid-c{
+                    border-color: green;
+                }
+            }
+        </style>
+    </head>
+
+
+
+
+
+
+    <body>
+    <div class="grid-c">
+        <div id="formcontainer">
+        <center><h1>Flickr Search Page</h1></center>
+        <hr>
+        <br>
+        <center>
+            <h2>Filter Your Photo Search Below<h2>
+            <p>(must at least use <strong>Tag(s)</strong> filter)</p>
+        </center>
+
+        <form id="test-form" action="javascript:void(0);">
+
+            <label for="test-text">Photos With Tag(s):</label>
+            <input id="test-text" type="text" value="">
+            <br>
+            <label for="test-date">Photos Uploaded Since (Date):</label>
+            <input id="test-date" type="date">
+            <br>
+            <center><input id="test-submit" type="submit"></center>
+
+        </form>
+        </div>
+        <div id="imgcontainer"></div>
+    </div>
+
+
+
+
+
+
+
+    <!-- SCRIPTS MUST BE LAST ARGS IN HTML BODY  *** immediately followed by closing "</body>" tag *** -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            let test_key = "f54ded25088cbdf0d800f6fa6d372e7b";
+
+            $("#test-form").submit(function (user_data) 
+            {
+                let test_tags = $("#test-text").val();
+
+                let test_date = $("#test-date").val();
+
+                let test_url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + test_key + "&tags=" + test_tags + "&min_upload_date=" + test_date + "&format=json&nojsoncallback=1";
+
+                console.log("User Tags: " + test_tags);
+
+                console.log("User Date: " + test_date);
+
+                console.log("URL Constructed: " + test_url);
+
+
+                var req = $.ajax({
+
+                    url: test_url,
+                    dataType: "json",
+                    success: function(data, status, msg) {
+                        console.log(data)
+                        console.log(msg);
+                        console.log(msg.status);
+                            $("#imgcontainer").empty();
+                            $.each(data.photos["photo"], function(i){
+                                $("#imgcontainer").append(
+
+                                    '<div id="photo-div">'+
+
+                                        '<a href="https://live.staticflickr.com/' +data.photos["photo"][i].server+ '/' +data.photos["photo"][i].id+ '_' +data.photos["photo"][i].secret+ '.jpg">' +
+                                            '<img id="photo" alt="' +data.photos["photo"][i].title+ '" src="https://live.staticflickr.com/' +data.photos["photo"][i].server+ '/' +data.photos["photo"][i].id+ '_' +data.photos["photo"][i].secret+ '.jpg">' +
+                                        '</a>' +
+
+                                        '<hr>' +
+                                        
+                                        '<figcaption id="cap">' +data.photos["photo"][i].title+ '</figcaption>' + 
+
+                                    '</div>');
+
+                            });
+
+                    },
+                    error: function(msg) {
+
+                        console.log(error.status);
+                        alert("Error Status: " + error);
+
+                    }
+                })
+            });
+        });
+    </script>   
+    
+    
+
+    </body>
+</html>
